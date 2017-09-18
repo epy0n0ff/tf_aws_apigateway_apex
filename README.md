@@ -6,6 +6,11 @@ A terraform module to provide apigateway-apex integration easily.
 Usage
 -----
 ```
+# Predefine apex variable
+variable "apex_function_arns" {
+  type = "map"
+ }
+
 # Create  a rest api
 resource "aws_api_gateway_rest_api" "test-rest-api" {
   name = "test-rest-api"
