@@ -28,7 +28,7 @@ resource "aws_api_gateway_integration" "integration" {
   rest_api_id             = "${var.rest_api_id}"
   request_templates       = "${var.request_templates}"
   type                    = "AWS"
-  uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${lookup(var.apex_function_arns, format("%s_%s",lower(var.http_method),var.parent_path_part == "" ? var.resource_name  : format("%s_%s",var.parent_path_part,var.resource_name)))}/invocations"
+  uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${local.lambda_function_name}/invocations"
 }
 
 resource "aws_api_gateway_integration_response" "integration_response" {
@@ -41,7 +41,7 @@ resource "aws_api_gateway_integration_response" "integration_response" {
 
 resource "aws_lambda_permission" "permission_allow_api_gateway" {
   action        = "lambda:InvokeFunction"
-  function_name = "${lookup(var.apex_function_arns, format("%s_%s",lower(var.http_method),var.parent_path_part == "" ? var.resource_name  : format("%s_%s",var.parent_path_part,var.resource_name)))}"
+  function_name = "${local.lambda_function_name}"
   principal     = "apigateway.amazonaws.com"
   source_arn    = "arn:aws:execute-api:${var.aws_region}:${data.aws_caller_identity.current.account_id}:${var.rest_api_id}/*/${var.http_method}/${var.parent_path_part == "" ? ""  : format("%s/",var.parent_path_part)}${var.resource_name}"
   statement_id  = "AllowExecutionFromAPIGateway"

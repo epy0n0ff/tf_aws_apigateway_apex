@@ -7,6 +7,11 @@ variable "apex_function_arns" {
   type = "map"
 }
 
+variable "lambda_function_name" {
+  type    = "string"
+  default = ""
+}
+
 variable "rest_api_id" {
   type = "string"
 }
@@ -57,4 +62,8 @@ variable "request_templates" {
 variable "passthrough_behavior" {
   type    = "string"
   default = "WHEN_NO_TEMPLATES"
+}
+
+locals {
+  lambda_function_name = "${lookup(var.apex_function_arns, var.lambda_function_name == "" ? format("%s_%s",lower(var.http_method),var.parent_path_part == "" ? var.resource_name  : format("%s_%s",var.parent_path_part,var.resource_name)) : var.lambda_function_name)}"
 }
