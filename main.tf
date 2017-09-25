@@ -22,7 +22,7 @@ resource "aws_api_gateway_method_response" "method_response" {
 resource "aws_api_gateway_integration" "integration" {
   content_handling        = "${var.content_handling}"
   http_method             = "${aws_api_gateway_method.method.http_method}"
-  integration_http_method = "${var.http_method}"
+  integration_http_method = "${var.integration_http_method}"
   passthrough_behavior    = "${var.passthrough_behavior}"
   resource_id             = "${var.resource_id}"
   rest_api_id             = "${var.rest_api_id}"
