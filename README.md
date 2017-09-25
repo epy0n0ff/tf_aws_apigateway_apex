@@ -9,7 +9,7 @@ Usage
 # Predefine apex variable
 variable "apex_function_arns" {
   type = "map"
- }
+}
 
 # Create  a rest api
 resource "aws_api_gateway_rest_api" "test-rest-api" {
@@ -31,12 +31,13 @@ resource "aws_api_gateway_resource" "fiends_chat" {
 
 # Use this module
 module "fiends" {
-  source             = "github.com/epy0n0ff/tf_aws_apigateway_apex"
-  resource_name      = "fiends"
-  http_method        = "POST"
-  resource_id        = "${aws_api_gateway_resource.fiends.id}"
-  rest_api_id        = "${aws_api_gateway_rest_api.test-rest-api.id}"
-  apex_function_arns = "${var.apex_function_arns}"
+  source                  = "github.com/epy0n0ff/tf_aws_apigateway_apex"
+  resource_name           = "fiends"
+  http_method             = "POST"
+  integration_http_method = "POST"
+  resource_id             = "${aws_api_gateway_resource.fiends.id}"
+  rest_api_id             = "${aws_api_gateway_rest_api.test-rest-api.id}"
+  apex_function_arns      = "${var.apex_function_arns}"
 
   request_templates = {
     "application/x-www-form-urlencoded" = <<EOF
@@ -90,13 +91,14 @@ EOF
 
 # Create a sub-resource for use this module
 module "fiends_chat" {
-  source             = "github.com/epy0n0ff/tf_aws_apigateway_apex"
-  resource_name      = "chat"
-  parent_path_part   = "${aws_api_gateway_resource.fiends.path_part}"
-  http_method        = "POST"
-  resource_id        = "${aws_api_gateway_resource.fiends_chat.id}"
-  rest_api_id        = "${aws_api_gateway_rest_api.test-rest-api.id}"
-  apex_function_arns = "${var.apex_function_arns}"
+  source                  = "github.com/epy0n0ff/tf_aws_apigateway_apex"
+  resource_name           = "chat"
+  parent_path_part        = "${aws_api_gateway_resource.fiends.path_part}"
+  http_method             = "POST"
+  integration_http_method = "POST"
+  resource_id             = "${aws_api_gateway_resource.fiends_chat.id}"
+  rest_api_id             = "${aws_api_gateway_rest_api.test-rest-api.id}"
+  apex_function_arns      = "${var.apex_function_arns}"
 
   request_templates = {
     "application/x-www-form-urlencoded" = <<EOF

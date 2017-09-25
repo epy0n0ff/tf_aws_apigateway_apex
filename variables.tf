@@ -29,6 +29,11 @@ variable "http_method" {
   default = "GET"
 }
 
+variable "integration_http_method" {
+  type    = "string"
+  default = "POST"
+}
+
 variable "status_code" {
   type    = "string"
   default = "200"
