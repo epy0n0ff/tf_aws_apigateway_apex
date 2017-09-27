@@ -20,13 +20,8 @@ variable "resource_id" {
   type = "string"
 }
 
-variable "resource_name" {
+variable "resource_path" {
   type = "string"
-}
-
-variable "parent_path_part" {
-  type    = "string"
-  default = ""
 }
 
 variable "http_method" {
@@ -65,5 +60,5 @@ variable "passthrough_behavior" {
 }
 
 locals {
-  lambda_function_name = "${lookup(var.apex_function_arns, var.lambda_function_name == "" ? format("%s_%s",lower(var.http_method),var.parent_path_part == "" ? var.resource_name  : format("%s_%s",var.parent_path_part,var.resource_name)) : var.lambda_function_name)}"
+  lambda_function_name = "${lookup(var.apex_function_arns, var.lambda_function_name)}"
 }

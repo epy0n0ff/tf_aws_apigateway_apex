@@ -43,6 +43,6 @@ resource "aws_lambda_permission" "permission_allow_api_gateway" {
   action        = "lambda:InvokeFunction"
   function_name = "${local.lambda_function_name}"
   principal     = "apigateway.amazonaws.com"
-  source_arn    = "arn:aws:execute-api:${var.aws_region}:${data.aws_caller_identity.current.account_id}:${var.rest_api_id}/*/${var.http_method}/${var.parent_path_part == "" ? ""  : format("%s/",var.parent_path_part)}${var.resource_name}"
+  source_arn    = "arn:aws:execute-api:${var.aws_region}:${data.aws_caller_identity.current.account_id}:${var.rest_api_id}/*/${var.http_method}${var.resource_path}"
   statement_id  = "AllowExecutionFromAPIGateway"
 }
